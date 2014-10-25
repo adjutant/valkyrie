@@ -1,0 +1,13 @@
+VirtualAddrNetwork 10.192.0.0/10
+AutomapHostsOnResolve 1
+
+TransPort 9040
+TransListenAddress 10.13.1.1
+
+DNSPort 9053
+DNSListenAddress 10.13.1.1
+
+DataDirectory /tor
+PidFile /tor/tor.pid
+
+Log notice file /tor/tor.log

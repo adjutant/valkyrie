@@ -1,0 +1,29 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:SWARM-TCP - [0:0]
+:SWARM-UDP - [0:0]
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT
+-A INPUT -p udp -m conntrack --ctstate NEW -j SWARM-UDP
+-A INPUT -p tcp --tcp-flags FIN,SYN,RST,ACK SYN -m conntrack --ctstate NEW -j SWARM-TCP
+-A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
+-A INPUT -p tcp -j REJECT --reject-with tcp-reset
+-A INPUT -j REJECT --reject-with icmp-proto-unreachable
+-A SWARM-TCP -p tcp -i eth0 -j ACCEPT
+-A SWARM-UDP -p udp -i eth0 -j ACCEPT
+-A SWARM-TCP -p tcp -i wlan0 -j ACCEPT
+-A SWARM-UDP -p udp -i wlan0 -j ACCEPT
+COMMIT
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A PREROUTING -i wlan0 -p udp -m udp --dport 53 -j REDIRECT --to-ports 9053
+-A PREROUTING -i wlan0 -p tcp -m tcp --dport 22 -j REDIRECT --to-ports 22
+-A PREROUTING -i wlan0 -p tcp -m multiport ! --dports 22,53 -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j REDIRECT --to-ports 9040
+COMMIT

@@ -1,0 +1,12 @@
+[Unit]
+Description=Usb modeswitch
+Wants=network.target
+Before=adjutant.wvdial.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/usb_modeswitch -v 1bbb -p f000 -V 1bbb -P 0017 -M "55534243123456788000000080000606f50402527000000000000000000000"
+
+[Install]
+WantedBy=multi-user.target

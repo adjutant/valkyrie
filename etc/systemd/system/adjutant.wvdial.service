@@ -1,0 +1,14 @@
+[Unit]
+Description=Wvdial
+Requires=network.target adjutant.usb_modeswitch.service
+Wants=dev-ttyUSB4.device
+After=dev-ttyUSB4.device adjutant.usb_modeswitch.service
+
+[Service]
+Type=simple
+PIDFile=/run/wvdial.pid
+ExecStart=/usr/bin/wvdial
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

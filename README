@@ -1,0 +1,20 @@
+The VALKYRIE
+
+An extension for ArchLinux ARM (http://archlinuxarm.org/) that turns embbed boards to a security-enhanced router.
+
+The Valkyrie has two modes of operation. It can relay all of your network traffic through Tor or OpenVPN. At the moment, only Tor is supported.
+
+The initial release contains all the configuration files needed for setting up the Valkyrie on this set of hardware
++ Raspberry Pi B
++ Bufallo WLI-UC-GNHP
++ Alcatel OneTouch X230S
++ Viettel Telco
+
+The next releases will provide a provisioning tool to support any hardware configuration, as long as the board is supported by Arch ARM.
+
+Next features list:
+
++ Provisioning tool
++ Security tightening
++ OpenVPN support (and any VPN networks that supports ARM architecture)
++ Detailed documentation regarding online privacy.

@@ -1,0 +1,16 @@
+[Unit]
+Description=Anonymizing Overlay Network
+Requires=adjutant.hostapd@wlan0.service adjutant.wifi-ap@wlan0.service adjutant.dhcpd4@wlan0.service adjutant.ntpd.service 
+After=adjutant.hostapd@wlan0.service adjutant.wifi-ap@wlan0.service adjutant.dhcpd4@wlan0.service adjutant.ntpd.service 
+
+[Service]
+User=tor
+Type=simple
+ExecStart=/usr/bin/tor -f /etc/tor/torrc
+ExecReload=/usr/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+LimitNOFILE=8192
+PrivateDevices=yes
+
+[Install]
+WantedBy=multi-user.target

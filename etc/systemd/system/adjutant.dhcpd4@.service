@@ -1,0 +1,14 @@
+[Unit]
+Description=IPv4 DHCP server on %I
+Requires=adjutant.hostapd@%I.service
+Before=adjutant.tor.service
+After=adjutant.hostapd@%I.service adjutant.wifi-ap@wlan0.service
+
+[Service]
+Type=forking
+PIDFile=/run/dhcpd4-%I.pid
+ExecStart=/usr/bin/dhcpd -4 -q -pf /run/dhcpd4-%I.pid %I
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

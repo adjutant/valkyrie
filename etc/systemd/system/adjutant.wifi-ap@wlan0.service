@@ -1,0 +1,16 @@
+[Unit]
+Description=Admin interface on wlan0
+Requires=adjutant.hostapd@wlan0.service
+After=adjutant.hostapd@wlan0.service
+Before=adjutant.dhcpd4@wlan0.service adjutant.tor.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ip link set up dev wlan0
+ExecStart=/usr/bin/ip addr add 10.13.1.1/24 dev wlan0
+ExecStop=/usr/bin/ip addr flush dev wlan0
+ExecStop=/usr/bin/ip link set dev wlan0 down
+
+[Install]
+WantedBy=multi-user.target
